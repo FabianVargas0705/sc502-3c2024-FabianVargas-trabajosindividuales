@@ -1,0 +1,191 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #f8f9fa, #e0e0e0);
+}
+
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    background-color: #333;
+    padding: 10px;
+}
+ 
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+}
+ 
+.navbar a:hover {
+    background-color: #575757;
+}
+
+h1, p {
+    text-align: center;
+    margin: 1em auto;
+}
+
+fieldset {
+    border: none;
+    padding: 2rem 0;
+    border-bottom: 3px solid #3b3b4f;
+}
+
+fieldset:last-of-type {
+    border-bottom: none;
+}
+
+input {
+    width: 100%;
+    margin: 10px 0 0 0;
+}
+
+.recomendaciones {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.recomendaciones .cart-info:nth-child(3) {
+    grid-column: 1 / -1;
+    justify-self: center;
+}
+
+.cart-info {
+    width: 250px;
+    border: 1px solid #ccc;
+    background-color: white;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.contenido {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 500px;
+}
+
+.personal-info{
+    text-align: center;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    width: 60%;
+    height: 30%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.main-personal{
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+   
+}
+
+.main-personal h4{
+    padding: 30px;
+    color: #333;
+
+}
+
+.main-personal h2{
+    padding: 0px;
+    color: green;
+}
+
+.main-personal p{
+    padding: 0px;
+    color: black;
+    font-size: 20px;
+}
+
+.main-personal button{
+    padding: 20px;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-agendar-cita {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #007BFF;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-agendar-cita:hover {
+    background-color: #0056b3;
+}
+footer{
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+}
+
+
+form {
+    width: 60vw;
+    max-width: 500px;
+    min-width: 300px;
+    margin: 0 auto;
+    padding: 10px;
+  }
+  
+  fieldset {
+    border: none;
+    padding: 2rem 0;
+    border-bottom: 3px solid #3b3b4f;
+  }
+  
+  fieldset:last-of-type {
+    border-bottom: none;
+  }
+  
+  label {
+    display: block;
+    margin: 0.5rem 0;
+  }
+
+  input{
+    width: 100%;
+    margin: 10px 0 0 0;
+}
+
+.submit-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}
