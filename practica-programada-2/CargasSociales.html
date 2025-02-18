@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cargas Sociales</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container my-4">
+        <h1 class="text-center">Cargas Sociales</h1>
+        <div class="container d-flex justify-content-center align-items-center min-vh-40">
+            <form id="salary-form">
+                <div class="mb-3">
+                    <label for="salarioBruto" class="form-label">Salario Bruto</label>
+                    <input type="number" class="form-control" id="salarioBruto" placeholder="Digite el salario Bruto" required>
+                    <button type="submit" class="btn btn-primary w-100 my-3">Calcular</button>
+                </div>
+            </form>         
+        </div>
+
+               
+    </div>
+
+    <div class="container d-flex justify-content-center align-items-center min-vh-200">
+        <div  id="cargasSociales"></div>
+    </div>  
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                let salarioBruto = document.querySelector('#salarioBruto').value;
+                calcularDeducciones(salarioBruto);
+            });
+        });
+
+        function calcularDeducciones(salarioBruto) {
+            let ccss = salarioBruto * 0.105;  
+            let bancoPopular = salarioBruto * 0.01;  
+            let rop = salarioBruto * 0.0425;  
+            let totalCargas = ccss + bancoPopular + rop;
+            let salarioNetoAntesRenta = salarioBruto - totalCargas;
+            let renta = 0;
+            
+            if (salarioNetoAntesRenta > 4845000) {
+                renta += (salarioNetoAntesRenta - 4845000) * 0.25;
+                
+            } else if (salarioNetoAntesRenta > 2423000) {
+                renta += (salarioNetoAntesRenta - 2423000) * 0.20;
+                
+            } else if (salarioNetoAntesRenta > 1381000) {
+                renta += (salarioNetoAntesRenta - 1381000) * 0.15;
+                
+            } else if (salarioNetoAntesRenta > 941000) {
+                renta += (salarioNetoAntesRenta - 941000) * 0.10;
+            }
+            let salarioNeto = salarioNetoAntesRenta - renta;
+        
+            console.log('CCSS: ' + salarioNeto);
+            
+            loadSalary(ccss, bancoPopular, rop, salarioNeto, renta);
+        }
+        
+        function loadSalary(ccss, bancoPopular, rop, salarioNeto,renta) {
+            const salaryList = document.getElementById('cargasSociales');
+            salaryList.innerHTML = '';
+
+            const taskCard = document.createElement('div');
+            taskCard.className = '';
+            taskCard.innerHTML = `
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Deducciones</h5>
+                    <p class="card-text">CCSS: ${ccss.toLocaleString('es-CR', { style: 'currency', currency: 'CRC' })}</p>
+                    <p class="card-text">Banco Popular: ${bancoPopular.toLocaleString('es-CR', { style: 'currency', currency: 'CRC' })}</p>
+                    <p class="card-text">ROP: ${rop.toLocaleString('es-CR', { style: 'currency', currency: 'CRC' })}</p>
+                    <p class="card-text">Renta: ${renta.toLocaleString('es-CR', { style: 'currency', currency: 'CRC' })}</p>
+                    <p class="card-text">Salario Neto: ${salarioNeto.toLocaleString('es-CR', { style: 'currency', currency: 'CRC' })}</p>
+                </div>
+            </div>
+            `;
+            salaryList.appendChild(taskCard);
+        }
+    </script>
+</body>
+</html>

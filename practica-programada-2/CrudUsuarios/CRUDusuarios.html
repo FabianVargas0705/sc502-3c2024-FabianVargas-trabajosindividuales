@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulación CRUD con Modo Oscuro</title> <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <h2 class="text-center">Menu</h2>
+        <a href="#">Inicio</a>
+        <a href="#">Usuarios</a>
+        <a href="#">Configuraciones</a>
+        <a href="#">Ayuda</a>
+
+        <button class="btn btn-light mt-4" id="toggleDarMode">Modo Oscuro</button>
+    </div>
+
+
+    <div class="content">
+        <h1 class="text-center mt-4">Gestion de Usuarios</h1>
+
+
+
+    
+        <h2 class="text-center">Agregar un nuevo Usuarios</h2>
+        <form>
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" placeholder="Ingrese su nombre" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">email:</label>
+                <input type="email" class="form-control" id="email" placeholder="Ingrese su email" required>
+            </div>
+            <div class="mb-3">
+                <label for="rol" class="form-label">Rol de Usuarios</label>
+                <select class="form-select" id="rol" required>
+                    <option>Seleccione un rol</option>
+                    <option value="admin">Administrador</option>
+                    <option value="editor">Editor</option>
+                    <option value="lector">Lector</option>
+                </select>
+
+            </div>
+            <button type="submit" class="btn btn-primary">agregar usuario</button>
+        </form>
+
+        <h2> Lista de Usuarios</h2>
+
+        <table id="tbUsuario" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+    <div class="modal fade" id="editModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit User</h5>
+
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="task-form">
+                        <input type="hidden" id="task-id">
+                        <div class="mb-3">
+                            <label for="task-title" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="modal-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="task-desc" class="form-label">Email</label>
+                            <input type="text" class="form-control" id="modal-email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="rol" class="form-label">Rol de Usuarios</label>
+                            <select class="form-select" id="modal-rol" required>
+                                <option>Seleccione un rol</option>
+                                <option value="admin">Administrador</option>
+                                <option value="editor">Editor</option>
+                                <option value="lector">Lector</option>
+                            </select>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">Save User</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const obUsuario = [
+            {
+                id: 1,
+                nombre: "Fabian Vargas",
+                email: "faby.010507@gmail.com",
+                rol: "admin"
+            },
+            {
+                id: 2,
+                nombre: "Juan Perez",
+                email: "juan.perez@gmail.com",
+                rol: "editor"
+            },
+            {
+                id: 3,
+                nombre: "Ana Gomez",
+                email: "ana.gomez@gmail.com",
+                rol: "lector"
+            }
+        ];
+
+        let toggleButton = document.getElementById('toggleDarMode');
+        let body = document.body;
+        toggleButton.addEventListener('click', function () {
+            body.classList.toggle('dark-mode');
+            toggleButton.textContent = body.classList.contains('dark-mode') ? 'Modo Claro' : 'Modo Oscuro';
+            let
+        });
+
+   
+        document.addEventListener('DOMContentLoaded', function () {
+            loadUsuario();
+            document.querySelector('form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                let nombre = document.querySelector('#nombre').value;
+                let email = document.querySelector('#email').value;
+                let rol = document.querySelector('#rol').value;
+                let id = Math.floor(Math.random() * 1000);
+                let usuario = { id, nombre, email, rol };
+                agregarUsuario(usuario);
+            });
+        });
+
+   
+        function agregarUsuario(usuario) {
+            let tbUsuario = document.getElementById('tbUsuario');
+            let row = tbUsuario.insertRow();
+            obUsuario.push(usuario);
+
+            row.innerHTML = `
+            <td>${usuario.id}</td>
+            <td>${usuario.nombre}</td>
+            <td>${usuario.email}</td>
+            <td>${usuario.rol}</td>
+            <td>
+                        <button class="btn btn-warning edit-Usuario" data-bs-toggle="modal" data-bs-target="#editModal" data-id="${usuario.id}">Editar</button>
+                <button class="btn btn-danger delete-Usuario" data-id="${usuario.id}">Eliminar</button>
+            </td>
+            
+        `;
+        row.querySelector('.edit-Usuario').addEventListener('click', editarUsuario);
+                row.querySelector('.delete-Usuario').addEventListener('click', eliminarUsuario);
+
+        }
+
+        function loadUsuario() {
+            let tbUsuario = document.getElementById('tbUsuario').getElementsByTagName('tbody')[0];
+            tbUsuario.innerHTML = ''; // Limpiar la tabla antes de cargar los usuarios
+            obUsuario.forEach(function (usuario) {
+                let row = tbUsuario.insertRow();
+                row.setAttribute('data-id', usuario.id);
+                row.innerHTML = `
+                    <td>${usuario.id}</td>
+                    <td>${usuario.nombre}</td>
+                    <td>${usuario.email}</td>
+                    <td>${usuario.rol}</td>
+                    <td>
+                        <button class="btn btn-warning edit-Usuario" data-bs-toggle="modal" data-bs-target="#editModal" data-id="${usuario.id}">Editar</button>
+                        <button class="btn btn-danger delete-Usuario" data-id="${usuario.id}">Eliminar</button>
+                    </td>
+                `;
+
+                row.querySelector('.edit-Usuario').addEventListener('click', editarUsuario);
+                row.querySelector('.delete-Usuario').addEventListener('click', eliminarUsuario);
+            });
+        }
+
+        function eliminarUsuario(event) {
+            let id = event.target.dataset.id;
+            let row = document.querySelector(`tr[data-id="${id}"]`);
+            if (row) {
+                row.remove();
+            }
+            const index = obUsuario.findIndex(usuario => usuario.id == id);
+            if (index !== -1) {
+                obUsuario.splice(index, 1);
+            }
+            alert('Usuario eliminado con ID: ' + id);
+        }
+
+        function editarUsuario(event) {
+            let id = event.target.dataset.id;
+            let usuario = obUsuario.find(usuario => usuario.id == id);
+            document.querySelector('#modal-name').value = usuario.nombre;
+            document.querySelector('#modal-email').value = usuario.email;
+            document.querySelector('#modal-rol').value = usuario.rol;
+            document.querySelector('#modal-rol').focus();
+
+            document.querySelector('#task-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                
+                obUsuario.forEach(function (usuario) {
+                    if (usuario.id == id) {
+                        usuario.nombre = document.querySelector('#modal-name').value;
+                        usuario.email = document.querySelector('#modal-email').value;
+                        usuario.rol = document.querySelector('#modal-rol').value;
+                    }
+                });
+              
+                loadUsuario();
+            });
+
+           
+        }
+
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
